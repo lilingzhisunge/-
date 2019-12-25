@@ -10,12 +10,12 @@
                 <chat :noshow="noshow" :ownkey="ownkey" :content="item.content" :avatar="'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'"></chat>
               </a-row>
               <a-row style="margin-top:10px;" v-if="item.me">
-
                 <me
                   :noshow="noshow"
                   :ownkey="ownkey"
                   :key="item.index"
                   :content="item.content"
+                  :housedetal="item.housedetal"
                   :avatar="'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'"></me>
               </a-row>
             </div>
@@ -60,7 +60,13 @@
             <a-button icon="smile">
             </a-button>
           </a-popover>
-
+          <a-popover trigger="hover">
+            <template slot="content">
+              发送房源信息
+            </template>
+            <a-button icon="home" @click="housedetal">
+            </a-button>
+          </a-popover>
           <a-button icon="video-camera">
           </a-button>
           <a-button icon="phone">
@@ -129,6 +135,12 @@ export default {
   },
   methods: {
     moment,
+    housedetal () {
+      this.messageList[0].push({ me: true, housedetal: true })
+      setTimeout(() => {
+        this.showbottom()
+      }, 0)
+    },
     handleEmotion (i) {
       this.inputValue += i
     },
@@ -163,12 +175,106 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="less" scoped>
+.ant-card-body{
+  height:260px !important
+}
+.happy-scroll-container{
+  height:330px !important;
+}
 #card .happy-scroll-container {
     width: 1070px;
-    height:330px !important;
+
   }
   .emotion-box{
     border:none !important
   }
+  .name {
+  font-size: 14px;
+  // font-weight: bold;
+  color: rgba(0, 0, 0, 0.65);
+}
+.ant-carousel .slick-dots {
+  height: auto;
+}
+.ant-carousel .slick-slide img {
+  border: 5px solid #fff;
+  display: block;
+  margin: auto;
+  max-width: 100%;
+}
+.ant-carousel .slick-thumb {
+  bottom: -45px;
+}
+.ant-carousel .slick-thumb li {
+  width: 60px;
+  height: 45px;
+}
+.account-center-avatarHolder {
+  text-align: center;
+  margin-bottom: 24px;
+  width: 100px;
+  & > .avatar {
+    margin: 0 auto;
+    width: 104px;
+    height: 104px;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+  .account-center-tags {
+    .ant-tag {
+      margin-bottom: 8px;
+    }
+  }
+
+  .username {
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+}
+
+.account-center-detail {
+  p {
+    margin-bottom: 8px;
+    padding-left: 26px;
+    position: relative;
+  }
+
+  i {
+    position: absolute;
+    height: 14px;
+    width: 14px;
+    left: 0;
+    top: 4px;
+    background: url(https://gw.alipayobjects.com/zos/rmsportal/pBjWzVAHnOOtAUvZmZfy.svg);
+  }
+
+  .title {
+    background-position: 0 0;
+  }
+  .group {
+    background-position: 0 -22px;
+  }
+  .address {
+    background-position: 0 -44px;
+  }
+}
+
+.ant-carousel .slick-thumb li img {
+  width: 60px;
+  height: 100%;
+  margin-top: 10px;
+  filter: grayscale(100%);
+}
+.ant-carousel .slick-thumb li.slick-active img {
+  filter: grayscale(0%);
+}
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="_map">
+    <a-tag v-if="address?true:false">{{ address }}</a-tag>
     <div class="amap-page-container">
       <el-amap-search-box
         class="search-box"
@@ -62,6 +63,7 @@ ul li.active {
 export default {
   name: 'Amap',
   components: {},
+  props: ['address'],
   data () {
     var me = this
     return {
@@ -88,8 +90,29 @@ export default {
           var pos = [point.lng, point.lat]
           me.makerConf.position = [point.lng, point.lat]
           me.getList(pos)
-        }
-      },
+        },
+        click (e) {
+          const { lng, lat } = e.lnglat
+          me.lng = lng
+          me.lat = lat
+
+          // 这里通过高德 SDK 完成。
+          var geocoder = new AMap.Geocoder({
+            radius: 1000,
+            extensions: 'all'
+          })
+          geocoder.getAddress([lng, lat], function (status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+              if (result && result.regeocode) {
+                me.address = result.regeocode.formattedAddress
+                me.$emit('fun', me.address)
+                me.$nextTick()
+              }
+            }
+          })
+        } },
+      lng: 0,
+      lat: 0,
       makerConf: {
         position: [114.397169, 30.50576],
         content: ''

@@ -120,8 +120,8 @@
       >
         <a-radio-group v-model="value">
           <a-radio :value="1">全部</a-radio>
-          <a-radio :value="2">男</a-radio>
-          <a-radio :value="2">女</a-radio>
+          <a-radio :value="'man'">男</a-radio>
+          <a-radio :value="'women'">女</a-radio>
         </a-radio-group>
         <a-form-item>
           <a-select mode="tags" v-if="value === 2">

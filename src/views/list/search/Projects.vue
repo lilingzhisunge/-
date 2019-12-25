@@ -10,9 +10,14 @@
             enterButton="搜索"
           />
         </div>
-        <standard-form-row title="所属类目" block style="padding-bottom: 11px;">
-          <a-form-item>
-            <tag-select>
+        <standard-form-row title="城市" block style="padding-bottom: 11px;">
+          <a-form-item id="city">
+            <cn-region-picker
+              v-model="pickCity"
+              @on-pick-city="pickCity = $event"
+            >
+            </cn-region-picker>
+            <tag-select style="float:left;margin-top:-40px;margin-left:260px">
               <tag-select-option value="Category1">北京</tag-select-option>
               <tag-select-option value="Category2">上海</tag-select-option>
               <tag-select-option value="Category3">杭州</tag-select-option>
@@ -103,6 +108,7 @@ export default {
   data () {
     return {
       data: [],
+      pickCity: [],
       visible: false,
       form: this.$form.createForm(this),
       loading: true,
@@ -144,6 +150,30 @@ export default {
 </script>
 
 <style lang="less" scoped>
+ .picker-bg{
+  overflow: hidden !important;
+}
+ .picker-bg .picker .content .city .city-item {
+    margin-bottom: 10px;
+}
+ .picker-bg .picker .content .province {
+    margin-bottom: 15px !important;
+}
+.picker-bg .picker .content {
+    padding-top: 30px !important;
+}
+.picker-bg{
+  overflow: hidden !important;
+}
+.picker-bg .picker .content .city .city-item {
+    margin-bottom: 10px;
+}
+.picker-bg .picker .content .province {
+    margin-bottom: 15px !important;
+}
+.picker-bg .picker .content {
+    padding-top: 30px !important;
+}
 .name{
   font-size: 14px;
   // font-weight: bold;

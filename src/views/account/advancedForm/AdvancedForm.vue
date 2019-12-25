@@ -1,10 +1,33 @@
 <template>
   <div>
-    <a-card class="card" title="房源信息" :bordered="false">
-      <repository-form ref="repository" :showSubmit="false" />
+    <a-card class="card" :bordered="false">
+      <template slot="title">
+        房源信息
+        <a-icon
+          v-if="!edit"
+          type="edit"
+          @click="edit = true"
+          style="float:right;margin-top:5px;cursor:pointer"/>
+        <a-icon v-if="edit" @click="edit = false" type="check" style="float:right;margin-top:5px;cursor:pointer"/>
+      </template>
+      <repository-form
+        :edit="edit"
+        ref="
+          repository"
+        :showSubmit="false" />
     </a-card>
-    <a-card class="card" title="学校信息" :bordered="false">
-      <task-form ref="task" :showSubmit="false" />
+    <a-card class="card" :bordered="false">
+      <template slot="title">
+        学校信息
+        <a-icon
+          v-if="!schedit"
+          type="edit"
+          @click="schedit = true"
+          style="float:right;margin-top:5px;cursor:pointer"/>
+        <a-icon v-if="schedit" @click="schedit = false" type="check" style="float:right;margin-top:5px;cursor:pointer"/>
+
+      </template>
+      <task-form ref="task" :schedit="schedit" :showSubmit="false" />
     </a-card>
 
     <!-- table -->
@@ -105,6 +128,8 @@ export default {
   },
   data () {
     return {
+      edit: false,
+      schedit: false,
       description: '完善信息，可以让更多人的匹配到你',
       loading: false,
       memberLoading: false,
@@ -285,6 +310,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.picker-bg{
+  overflow: hidden !important;
+}
   .card{
     margin-bottom: 24px;
   }

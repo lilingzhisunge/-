@@ -2,7 +2,11 @@
   <div style="float:right;margin-top:10px;position:relative;">
     <!-- <a-row>
       <a-col :span="1"> -->
-    <div class="bubble" v-html="content.replace(/\#[\u4E00-\u9FA5]{1,3}\;/gi, emotion)"></div>
+    <div class="bubble" v-if="housedetal?false:true" v-html="content.replace(/\#[\u4E00-\u9FA5]{1,3}\;/gi, emotion)">
+    </div>
+    <div class="bubble" v-if="housedetal?true:false">
+      <housedetails></housedetails>
+    </div>
     <a-avatar
       :src="avatar"
     ></a-avatar>
@@ -10,11 +14,13 @@
 </template>
 <script>
 import Emotion from '../Emotion/index'
+import housedetails from '../housedetails'
 export default {
   components: {
-    Emotion
+    Emotion,
+    housedetails
   },
-  props: ['noshow', 'ownkey', 'content', 'avatar'],
+  props: ['noshow', 'ownkey', 'content', 'avatar', 'housedetal'],
   watch: {
     noshow (value) {
       if (value === this.ownkey) {
