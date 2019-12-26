@@ -1,6 +1,10 @@
 <template>
   <div class="_map">
-    <a-tag v-if="address?true:false">{{ address }}</a-tag>
+    <a-tag
+      v-if="address?true:false"
+      style="margin-bottom:10px;max-width:377px;overflow: hidden;
+text-overflow:ellipsis;
+white-space: nowrap;">{{ address }}</a-tag><a-icon v-if="message&&address" type="check" style="float:right;margin-top:5px;cursor:pointer" @click="show"/>
     <div class="amap-page-container">
       <el-amap-search-box
         class="search-box"
@@ -63,7 +67,7 @@ ul li.active {
 export default {
   name: 'Amap',
   components: {},
-  props: ['address'],
+  props: ['address', 'message'],
   data () {
     var me = this
     return {
@@ -151,6 +155,7 @@ export default {
   },
   mounted () {},
   methods: {
+    show () { this.$emit('ok', this.address) },
     select: function (item, index) {
       var me = this
       me.currIndex = index

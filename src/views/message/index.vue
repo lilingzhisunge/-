@@ -1,11 +1,12 @@
 <template>
-  <a-card id="listcard">
+  <a-card>
     <a-tabs v-model="activeKey" type="editable-card" hideAdd @edit="onEdit">
       <a-tab-pane
         tab="消息列表"
         :key="1"
         :closable="false"
         style="height:460px;width:1060px"
+        id="listcard"
       >
         <!-- <a-card > -->
         <happy-scroll color="rgba(51,51,51,0.2)" hide-horizontal>
@@ -267,6 +268,7 @@ export default {
 }
 </script>
 <style>
+
 .demo-infinite-container {
   border: 1px solid #e8e8e8;
   border-radius: 4px;

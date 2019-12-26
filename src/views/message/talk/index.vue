@@ -1,15 +1,15 @@
 <template>
-  <div style="height:460px;" >
+  <div style="height:480px;" >
 
-    <a-card style="height:360px;" id="card">
+    <a-card style="height:380px;border:none;padding-top:0px;margin-top:-10px" id="messcard">
       <happy-scroll color="rgba(51,51,51,0.2)" hide-horizontal hide-vertical :scroll-top="scrollTop">
-        <div style="height:290px;width:990px;" >
+        <div style="width:990px;padding-bottom:20px" >
           <template v-for="item in messageList[0]">
             <div :key="item.index" >
-              <a-row style="margin-top:10px;" v-if="!item.me">
+              <a-row style="margin-bottom:10px;" v-if="!item.me">
                 <chat :noshow="noshow" :ownkey="ownkey" :content="item.content" :avatar="'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'"></chat>
               </a-row>
-              <a-row style="margin-top:10px;" v-if="item.me">
+              <a-row style="margin-bottom:10px;" v-if="item.me">
                 <me
                   :noshow="noshow"
                   :ownkey="ownkey"
@@ -28,10 +28,9 @@
       :style="{
         position: 'absolute',
         bottom: 0,
-        height:'100px',
+        height:'73px',
         width: '100%',
         zIndex:'100',
-        borderTop: '1px solid #e8e8e8',
         padding: '10px 0px 0px 0px',
         textAlign: 'right',
         left: 0,
@@ -40,9 +39,9 @@
       }"
     >
       <a-textarea
-        style="resize:none;height:88px;"
+        style="resize:none;height:63px;"
         placeholder="请输入"
-        :rows="3.5"
+        :rows="2"
         v-model="inputValue"
         @keyup.enter="send()"
         :value="inputValue.replace(/\#[\u4E00-\u9FA5]{1,3}\;/gi, emotion)">
@@ -67,6 +66,13 @@
             <a-button icon="home" @click="housedetal">
             </a-button>
           </a-popover>
+          <a-popover trigger="click">
+            <template slot="content">
+              <Amap style="width:400px" :message="true" @ok="ok"></Amap>
+            </template>
+            <a-button icon="environment">
+            </a-button>
+          </a-popover>
           <a-button icon="video-camera">
           </a-button>
           <a-button icon="phone">
@@ -79,6 +85,7 @@
   </div>
 </template>
 <script>
+import Amap from '@/components/Amap'
 import { HappyScroll } from 'vue-happy-scroll'
 import 'vue-happy-scroll/docs/happy-scroll.css'
 import Emotion from '../Emotion/index'
@@ -90,7 +97,8 @@ export default {
     chat,
     me,
     HappyScroll,
-    Emotion
+    Emotion,
+    Amap
   },
   props: ['noshow', 'ownkey', 'messageList'],
   data () {
@@ -135,6 +143,9 @@ export default {
   },
   methods: {
     moment,
+    ok (value) {
+      this.inputValue = value
+    },
     housedetal () {
       this.messageList[0].push({ me: true, housedetal: true })
       setTimeout(() => {
@@ -177,16 +188,16 @@ export default {
 </script>
 <style lang="less" scoped>
 .ant-card-body{
-  height:260px !important
+  height:390px !important
 }
-.happy-scroll-container{
-  height:330px !important;
+#messcard .happy-scroll-container{
+  // height:250px !important;
+  width: 1070px;
 }
-#card .happy-scroll-container {
-    width: 1070px;
-
-  }
-  .emotion-box{
+#messcard .happy-scroll{
+  height:390px !important;
+}
+ .emotion-box[data-v-41528d68]{
     border:none !important
   }
   .name {

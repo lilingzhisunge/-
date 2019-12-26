@@ -1,38 +1,54 @@
 <template>
   <div class="account-settings-info-view">
+    <a-icon type="edit" style="position:absolute;margin-top:-42px;margin-left:100px;cursor:pointer" v-if="!edit" @click="edit=true"/>
+    <a-icon type="check" style="position:absolute;margin-top:-42px;margin-left:100px;cursor:pointer" v-if="edit" @click="edit=false"/>
     <a-row :gutter="16">
       <a-col :md="24" :lg="16">
 
         <a-form layout="vertical" ref="formRegister" :form="form">
           <a-form-item
             label="昵称"
+            :required="true"
           >
-            <a-input placeholder="给自己起个名字" v-decorator="['name', {rules: [{ required: true, message: '请输入昵称' }], validateTrigger: ['change', 'blur']}]"/>
+            <span v-if="!edit">{{ name }}</span>
+            <a-input v-if="edit" placeholder="给自己起个名字" v-model="name"/>
           </a-form-item>
           <a-form-item
             label="个性签名"
+            :required="true"
           >
-            <a-textarea rows="4" placeholder="You are not alone."/>
+            <span v-if="!edit">{{ tip }}</span>
+
+            <a-textarea rows="4" v-if="edit" placeholder="You are not alone." v-model="tip"/>
           </a-form-item>
 
-          <a-form-item label="邮箱">
+          <a-form-item label="邮箱" :required="true">
+            <span v-if="!edit">{{ email }}</span>
+
             <a-input
               type="text"
+              v-if="edit"
               placeholder="邮箱"
-              v-decorator="['email', {rules: [{ required: true, type: 'email', message: '请输入邮箱地址' }], validateTrigger: ['change', 'blur']}]"
+              v-model="email"
             ></a-input>
           </a-form-item>
           <a-form-item
             label="城市"
             :required="false"
           >
+            <span v-if="!edit">{{ liveCity[0].name }}</span>
             <cn-region-picker
               v-model="liveCity"
+              v-if="edit"
               @on-pick-city="liveCity = $event"
             >
             </cn-region-picker>
+            <a-tag v-if="edit" style="margin-top:10px"> {{ liveCity[0].name }}</a-tag>
+
           </a-form-item>
-          <a-form-item label="密码">
+          <a-form-item label="密码" :required="true">
+            <span v-if="!edit">{{ password }}</span>
+
             <a-popover
               placement="rightTop"
               :trigger="['focus']"
@@ -48,21 +64,25 @@
                 </div>
               </template>
               <a-input
+                v-if="edit"
                 type="password"
                 @click="handlePasswordInputClick"
                 autocomplete="false"
                 placeholder="至少6位密码，区分大小写"
-                v-decorator="['password', {rules: [{ required: true, message: '至少6位密码，区分大小写'}, { validator: this.handlePasswordLevel }], validateTrigger: ['change', 'blur']}]"
+                v-model="password"
               ></a-input>
             </a-popover>
           </a-form-item>
           <a-form-item
-            label="确认密码">
+            label="确认密码"
+            v-if="edit"
+            :required="true" >
+
             <a-input
               type="password"
               autocomplete="false"
               placeholder="确认密码"
-              v-decorator="['password2', {rules: [{ required: true, message: '至少6位密码，区分大小写' }, { validator: this.handlePasswordCheck }], validateTrigger: ['change', 'blur']}]"
+              v-model="password2"
             ></a-input>
           </a-form-item>
 
@@ -119,7 +139,12 @@ export default {
   data () {
     return {
       // cropper
-      liveCity: [],
+      liveCity: [{ name: '杭州' }],
+      name: 'lilingzhi',
+      tip: '今天也要加油呀',
+      edit: false,
+      password: '****************',
+      email: 'jilinlilingzhi@163.com',
       form: this.$form.createForm(this),
       state: {
         passwordLevel: 0,
